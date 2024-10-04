@@ -4,7 +4,7 @@ CC=g++
 CFLAGS=-Wall -Werror -Wextra --std=c++17
 LDFLAGS=-lgtest -lgtest_main -lpthread
 
-GCOV_FLAGS=-fprofile-arcs -ftest-coverage
+GCOV_FLAGS=-lgcov -fprofile-arcs -ftest-coverage
 
 FILES=sources/*.cpp
 TEST_FILES=test/test.cpp
@@ -31,7 +31,7 @@ test: s21_matrix_oop.a $(FILES) $(TEST_FILES)
 gcov_report: $(TEST_FILES)
 	$(CC) $(CFLAGS) $(TEST_FILES) $(FILES) -o test_exe_gcov $(LDFLAGS) $(GCOV_FLAGS)
 	./test_exe_gcov
-	lcov --ignore-errors mismatch -t test_exe_gcov -o test.info -c -d .
+	lcov --ignore-errors mismatch --ignore-errors inconsistent -t test_exe_gcov -o test.info -c -d .
 	genhtml test.info -o report
 	rm -rf *.gcda *.gcno *.info test_exe_gcov
 

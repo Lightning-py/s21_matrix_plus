@@ -1,9 +1,8 @@
-// By no way these tests are exhaustive. I just had to create *some* tests.
 #include <gtest/gtest.h>
 
 #include <cmath>
 
-#include "../s21_matrix_oop.hpp"
+#include "../s21_matrix_oop.h"
 
 TEST(Constructor_default, Constructor_default) {
   S21Matrix matrix = S21Matrix();

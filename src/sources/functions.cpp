@@ -1,4 +1,4 @@
-#include "../s21_matrix_oop.hpp"
+#include "../s21_matrix_oop.h"
 
 bool S21Matrix::EqMatrix(const S21Matrix& other) {
   bool result = true;

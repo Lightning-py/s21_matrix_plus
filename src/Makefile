@@ -1,7 +1,7 @@
 .PHONY: all clean s21_matrix_oop.a test gcov_report 
 
 CC=g++
-CFLAGS=-Wall -Werror -Wextra --std=c++17 -g
+CFLAGS=-Wall -Werror -Wextra --std=c++17
 LDFLAGS=-lgtest -lgtest_main -lpthread
 
 GCOV_FLAGS=-fprofile-arcs -ftest-coverage

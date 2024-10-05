@@ -84,14 +84,21 @@ TEST(EqMatrix, different_sizes) {
   S21Matrix matrix_1(1, 2);
   S21Matrix matrix_2(1, 1);
 
-  EXPECT_FALSE(matrix_1.EqMatrix(matrix_2));
+  EXPECT_FALSE(matrix_1 == matrix_2);
 }
 
 TEST(EqMatrix, equal_matrices) {
   S21Matrix matrix_1(2, 2);
   S21Matrix matrix_2(2, 2);
 
-  EXPECT_TRUE(matrix_1.EqMatrix(matrix_2));
+  EXPECT_TRUE(matrix_1 == matrix_2);
+}
+
+TEST(NotEqMatrix, equal_matrices) {
+  S21Matrix matrix_1(2, 2);
+  S21Matrix matrix_2(2, 2);
+
+  EXPECT_FALSE(matrix_1 != matrix_2);
 }
 
 // SumMatrix
@@ -103,7 +110,7 @@ TEST(SumMatrix, different_sizes) {
   bool flag = false;
 
   try {
-    matrix_1.SumMatrix(matrix_2);
+    S21Matrix result = matrix_1 + matrix_2;
   } catch (const std::exception& e) {
     flag = true;
   }
@@ -122,17 +129,17 @@ TEST(SumMatrix, sum_test) {
     }
   }
 
-  matrix_1.SumMatrix(matrix_2);
+  S21Matrix result = matrix_1 + matrix_2;
 
-  bool result = true;
+  bool result_ = true;
 
-  for (int i = 0; (i < 2) && result; ++i) {
-    for (int j = 0; (j < 2) && result; ++j) {
-      result = matrix_1[i][j] == 4.0;
+  for (int i = 0; (i < 2) && result_; ++i) {
+    for (int j = 0; (j < 2) && result_; ++j) {
+      result_ = result[i][j] == 4.0;
     }
   }
 
-  EXPECT_TRUE(result);
+  EXPECT_TRUE(result_);
 }
 
 // SubMatrix
@@ -144,7 +151,7 @@ TEST(SubMatrix, different_sizes) {
   bool flag = false;
 
   try {
-    matrix_1.SubMatrix(matrix_2);
+    S21Matrix result = matrix_1 - matrix_2;
   } catch (const std::exception& e) {
     flag = true;
   }
@@ -163,13 +170,13 @@ TEST(SubMatrix, sum_test) {
     }
   }
 
-  matrix_1.SubMatrix(matrix_2);
+  S21Matrix result_ = matrix_1 - matrix_2;
 
   bool result = true;
 
   for (int i = 0; (i < 2) && result; ++i) {
     for (int j = 0; (j < 2) && result; ++j) {
-      result = matrix_1[i][j] == -2.0;
+      result = result_[i][j] == -2.0;
     }
   }
 
@@ -182,11 +189,11 @@ TEST(MulNumber, MulNumber) {
     for (int j = 0; j < 2; ++j) matrix_1[i][j] = 1.0;
   }
 
-  matrix_1.MulNumber(3.0);
+  S21Matrix result = matrix_1 * 3.0;
 
   bool flag = true;
   for (int i = 0; (i < 2) && flag; ++i) {
-    for (int j = 0; (j < 2) && flag; ++j) flag = matrix_1[i][j] == 3.0;
+    for (int j = 0; (j < 2) && flag; ++j) flag = result[i][j] == 3.0;
   }
 
   EXPECT_TRUE(flag);
@@ -199,7 +206,7 @@ TEST(MulMatrix, incorrect_data) {
   bool flag = false;
 
   try {
-    matrix_1.MulMatrix(matrix_2);
+    S21Matrix result = matrix_1 * matrix_2;
   } catch (const std::exception& e) {
     flag = true;
   }
@@ -217,9 +224,11 @@ TEST(MulMatrix, normal_values) {
   matrix_2[0][0] = 2;
   matrix_2[0][1] = 3;
 
-  matrix_2.MulMatrix(matrix_1);
+  S21Matrix result(matrix_2 * matrix_1);
 
-  EXPECT_TRUE(matrix_2[0][0] == 5.0);
+  std::cout << result[0][0] << std::endl;
+
+  EXPECT_TRUE(result[0][0] == 5.0);
 }
 
 TEST(Transpose, normal_values) {
@@ -338,6 +347,13 @@ TEST(Complement, one_to_one) {
   S21Matrix result = matrix.CalcComplements();
 
   EXPECT_TRUE(result[0][0] == 5);
+}
+
+TEST(Operator_eq, normal_test) {
+  S21Matrix a(2, 2);
+  S21Matrix b(1, 1);
+
+  b = a;
 }
 
 int main(int argc, char** argv) {

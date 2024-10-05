@@ -29,6 +29,11 @@ S21Matrix::S21Matrix(const S21Matrix& other) {
   this->matrix_ = new double*[this->rows_];
   for (int i = 0; i < other.rows_; ++i)
     this->matrix_[i] = new double[this->cols_];
+
+  for (int i = 0; i < other.rows_; ++i) {
+    for (int j = 0; j < other.cols_; ++j)
+      this->matrix_[i][j] = other.matrix_[i][j];
+  }
 }
 
 S21Matrix::S21Matrix(S21Matrix&& other)

@@ -18,18 +18,31 @@ class S21Matrix {
   double** getMatrix() const;
   void setMatrix(double** new_matrix);
 
-  bool EqMatrix(const S21Matrix& other);
+  bool EqMatrix(const S21Matrix& other) const;
+
   void SumMatrix(const S21Matrix& other);
   void SubMatrix(const S21Matrix& other);
   void MulNumber(const double num);
   void MulMatrix(const S21Matrix& other);
 
   double* operator[](int index);
+  S21Matrix& operator+=(const S21Matrix& rhs);
+  S21Matrix& operator-=(const S21Matrix& rhs);
+  S21Matrix& operator*=(const S21Matrix& rhs);
+  S21Matrix& operator*=(double rhs);
+  S21Matrix operator+(const S21Matrix& rhs) const;
+  S21Matrix operator-(const S21Matrix& rhs) const;
+  S21Matrix operator*(const S21Matrix& rhs) const;
+  S21Matrix operator*(double rhs) const;
+  bool operator==(const S21Matrix& rhs) const;
+  bool operator!=(const S21Matrix& rhs) const;
 
-  S21Matrix Transpose();
-  double Determinant();
-  S21Matrix CalcComplements();
-  double s21_complement(S21Matrix* A, int row, int column);
+  S21Matrix Transpose() const;
+  double Determinant() const;
+  S21Matrix CalcComplements() const;
+  double s21_complement(const S21Matrix* A, int row, int column) const;
+  S21Matrix& operator=(S21Matrix&& other);
+  S21Matrix& operator=(const S21Matrix& other);
 
   bool isValid();
 

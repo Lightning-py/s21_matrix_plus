@@ -9,6 +9,8 @@ GCOV_FLAGS=-lgcov -fprofile-arcs -ftest-coverage
 FILES=sources/*.cpp
 TEST_FILES=test/test.cpp
 
+all: test  gcov_report
+
 clean: 
 	rm -f s21_gcov
 	rm -f *.gcda
@@ -17,14 +19,14 @@ clean:
 	rm -rf report
 	rm -f *.o
 	rm -f test_exe
-	rm -f s21_matrix.a
+	rm -f s21_matrix_oop.a
 
 s21_matrix_oop.a: $(FILES)
 	$(CC) -c $(CFLAGS) $(FILES)
-	ar rcs s21_matrix.a *.o
+	ar rcs s21_matrix_oop.a *.o
 
 test: s21_matrix_oop.a $(FILES) $(TEST_FILES)
-	$(CC) $(CFLAGS) $(TEST_FILES) -L. s21_matrix.a -o test_exe $(LDFLAGS)
+	$(CC) $(CFLAGS) $(TEST_FILES) -L. s21_matrix_oop.a -o test_exe $(LDFLAGS)
 	./test_exe
 	$(MAKE) clean
 
@@ -34,7 +36,3 @@ gcov_report: $(TEST_FILES)
 	lcov --ignore-errors mismatch --ignore-errors inconsistent -t test_exe_gcov -o test.info -c -d .
 	genhtml test.info -o report
 	rm -rf *.gcda *.gcno *.info test_exe_gcov
-
-
-
-all:  s21_matrix.a  test  gcov_report

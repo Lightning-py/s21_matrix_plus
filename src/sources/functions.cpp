@@ -1,6 +1,6 @@
 #include "../s21_matrix_oop.h"
 
-bool S21Matrix::EqMatrix(const S21Matrix& other) {
+bool S21Matrix::EqMatrix(const S21Matrix& other) const {
   bool result = true;
 
   if ((this->rows_ == other.rows_) && (this->cols_ == other.cols_)) {
@@ -71,7 +71,7 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
   this->cols_ = other.cols_;
 }
 
-S21Matrix S21Matrix::Transpose() {
+S21Matrix S21Matrix::Transpose() const {
   S21Matrix temp(this->cols_, this->rows_);
 
   for (int i = 0; i < this->rows_; ++i) {
@@ -83,7 +83,7 @@ S21Matrix S21Matrix::Transpose() {
   return temp;
 }
 
-S21Matrix S21Matrix::CalcComplements() {
+S21Matrix S21Matrix::CalcComplements() const {
   if (this->rows_ != this->cols_)
     throw std::invalid_argument("matrix is not square shaped");
 
@@ -98,7 +98,8 @@ S21Matrix S21Matrix::CalcComplements() {
   return temp;
 }
 
-double S21Matrix::s21_complement(S21Matrix* A, int row, int column) {
+double S21Matrix::s21_complement(const S21Matrix* A, int row,
+                                 int column) const {
   double det = 0;
 
   if (A->rows_ == 1)
@@ -129,7 +130,7 @@ double S21Matrix::s21_complement(S21Matrix* A, int row, int column) {
   return det;
 }
 
-double S21Matrix::Determinant() {
+double S21Matrix::Determinant() const {
   double result = 0;
 
   if (this->rows_ != this->cols_)

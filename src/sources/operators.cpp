@@ -1,82 +1,89 @@
 #include "../s21_matrix_oop.h"
 
 S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
-  if (this != &other) {
-    if (matrix_ != nullptr) {
-      for (int i = 0; i < rows_; ++i) {
-        delete[] matrix_[i];
-      }
-      delete[] matrix_;
+    if (this != &other) {
+        if (matrix_ != nullptr) {
+            for (int i = 0; i < rows_; ++i) {
+                delete[] matrix_[i];
+            }
+            delete[] matrix_;
+        }
+
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+        matrix_ = new double*[rows_];
+        for (int i = 0; i < rows_; ++i) {
+            matrix_[i] = new double[cols_];
+        }
+
+        for (int i = 0; i < rows_; ++i) {
+            for (int j = 0; j < cols_; ++j) {
+                matrix_[i][j] = other.matrix_[i][j];
+            }
+        }
     }
 
-    rows_ = other.rows_;
-    cols_ = other.cols_;
-    matrix_ = new double*[rows_];
-    for (int i = 0; i < rows_; ++i) {
-      matrix_[i] = new double[cols_];
-    }
-
-    for (int i = 0; i < rows_; ++i) {
-      for (int j = 0; j < cols_; ++j) {
-        matrix_[i][j] = other.matrix_[i][j];
-      }
-    }
-  }
-
-  return *this;
+    return *this;
 }
 
 S21Matrix& S21Matrix::operator+=(const S21Matrix& arg) {
-  this->SumMatrix(arg);
-  return *this;
+    this->SumMatrix(arg);
+    return *this;
 }
 
 S21Matrix& S21Matrix::operator-=(const S21Matrix& arg) {
-  this->SubMatrix(arg);
-  return *this;
+    this->SubMatrix(arg);
+    return *this;
 }
 
 S21Matrix& S21Matrix::operator*=(const S21Matrix& arg) {
-  this->MulMatrix(arg);
-  return *this;
+    this->MulMatrix(arg);
+    return *this;
 }
 
 S21Matrix& S21Matrix::operator*=(double arg) {
-  this->MulNumber(arg);
-  return *this;
+    this->MulNumber(arg);
+    return *this;
 }
 
 S21Matrix S21Matrix::operator+(const S21Matrix& arg) const {
-  S21Matrix result = *this;
-  result += arg;
-  return result;
+    S21Matrix result = *this;
+    result += arg;
+    return result;
 }
 
 S21Matrix S21Matrix::operator-(const S21Matrix& arg) const {
-  S21Matrix result = *this;
-  result -= arg;
+    S21Matrix result = *this;
+    result -= arg;
 
-  return result;
+    return result;
 }
 
 S21Matrix S21Matrix::operator*(const S21Matrix& arg) const {
-  S21Matrix result = *this;
-  result *= arg;
+    S21Matrix result = *this;
+    result *= arg;
 
-  return result;
+    return result;
 }
 
 S21Matrix S21Matrix::operator*(double arg) const {
-  S21Matrix result = *this;
-  result *= arg;
+    S21Matrix result = *this;
+    result *= arg;
 
-  return result;
+    return result;
 }
 
 bool S21Matrix::operator==(const S21Matrix& arg) const {
-  return this->EqMatrix(arg);
+    return this->EqMatrix(arg);
 }
 
 bool S21Matrix::operator!=(const S21Matrix& arg) const {
-  return !(*this == arg);
+    return !(*this == arg);
+}
+
+double& S21Matrix::operator()(int row, int col) {
+    if (row < 0 || row >= rows_ || col < 0 || col >= cols_) {
+        throw std::out_of_range("Index out of bounds");
+    }
+    return matrix_[row][col];
 }
